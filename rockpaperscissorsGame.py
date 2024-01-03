@@ -23,4 +23,30 @@ while comp_score + user_score < total_games:
 
     print("Computer's choice: ", choices[comp_choice])
 
-    
+    # Determine the winner
+    if (user_choice == 'R' and comp_choice == 'P') or \
+       (user_choice == 'P' and comp_choice == 'S') or \
+       (user_choice == 'S' and comp_choice == 'R'):
+        comp_score += 1
+    elif (user_choice == 'P' and comp_choice == 'R') or \
+         (user_choice == 'S' and comp_choice == 'P') or \
+         (user_choice == 'R' and comp_choice == 'S'):
+        user_score += 1
+    else:
+        print("It's a tie!")
+
+    # Display current score
+    print("\nSCORE:")
+    print("Your Score:", user_score, "\tComputer Score:", comp_score, "\n")
+
+# Display final score
+print("\n\t\tFINAL SCORE:")
+print("Your Score:", user_score, "\t\t\tComputer Score:", comp_score, "\n")
+
+# Determine the overall winner
+if user_score > comp_score:
+    print("\n\tCongratulations! You Won!")
+elif user_score < comp_score:
+    print("\n\t\tYou Lost!")
+else:
+    print("\n\t\tIt's a Tie!")
