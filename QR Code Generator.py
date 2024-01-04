@@ -23,5 +23,11 @@ def generate_qrcode(url):
     print("QR Code Data:", qr.data_list)
 
 if __name__ == "__main__":
-    input_URL = "https://www.google.com/"
+    # Get user input for the URL
+    input_URL = input("Enter the URL to generate a QR code: ").strip()
+
+    # Validate the URL (you can add more robust URL validation if needed)
+    if not input_URL.startswith(("http://", "https://")):
+        input_URL = "http://" + input_URL
+
     generate_qrcode(input_URL)
