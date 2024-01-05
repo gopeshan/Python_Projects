@@ -4,11 +4,7 @@ def check_win(player, squares):
         (0, 3, 6), (1, 4, 7), (2, 5, 8),  # verticals
         (0, 4, 8), (2, 4, 6)              # diagonals
     ]
-
-    for a, b, c in win_conditions:
-        if {squares[a], squares[b], squares[c]} == {player}:
-            return True
-    return False
+    return any(set(squares[a] for a in line) == {player} for line in win_conditions)
 
 def print_board(squares):
     board = '''
@@ -22,8 +18,11 @@ def print_board(squares):
     '''
     print(board.format(*squares))
 
+def is_valid_move(move, squares):
+    return move.isdigit() and 0 <= int(move) <= 8 and squares[int(move)] == ' '
+
 def play_tic_tac_toe():
-    players = 'XO'
+    players = ['X', 'O']
 
     while True:
         squares = [' ']*9  # Reset the board for each game
@@ -32,16 +31,19 @@ def play_tic_tac_toe():
 
         while ' ' in squares:
             move = input(f'{players[0]} to move [0-8] > ')
-            if not move.isdigit() or not 0 <= int(move) <= 8 or squares[int(move)] != ' ':
-                print('Invalid move!')
+
+            if not is_valid_move(move, squares):
+                print('Invalid move! Please choose a valid, unoccupied position.')
                 continue
 
-            squares[int(move)], players = players[0], players[::-1]
+            squares[int(move)] = players[0]
             print_board(squares)
 
-            if check_win(players[1], squares):
-                print(f'{players[1]} is the winner!')
+            if check_win(players[0], squares):
+                print(f'{players[0]} is the winner!')
                 break
+
+            players.reverse()  # Switch players
 
         if ' ' not in squares:
             print('Cats game!')
