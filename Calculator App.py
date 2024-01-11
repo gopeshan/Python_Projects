@@ -57,5 +57,23 @@ def create_calculator():
         "active": '#C0C0C0',
     }
 
+    num_button = partial(create_button, root, bg=button_colors["num"])
+    cal_button = partial(create_button, root, bg=button_colors["cal"])
+
+    buttons = [
+        ('7', 2, 0), ('8', 2, 1), ('9', 2, 2), ('+', 4, 3),
+        ('4', 3, 0), ('5', 3, 1), ('6', 3, 2), ('-', 3, 3),
+        ('1', 4, 0), ('2', 4, 1), ('3', 4, 2), ('*', 2, 3),
+        ('0', 5, 0), ('.', 5, 1), ('/', 1, 3), ('<-', 1, 0, button_colors["other"], 5),
+        ('C', 1, 2, button_colors["other"]), ('=', 5, 3, button_colors["cal"]), ('^', 5, 2, button_colors["cal"]),
+    ]
+
+    for button in buttons:
+        create_button(*button, width=5, height=2, fg='white')
+
+    exit_button = create_button(root, text='Quit', command=root.quit, bg='black', width=7, height=1, row=6, column=1, fg='white')
+
+    root.mainloop()
+
 
 
