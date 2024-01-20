@@ -16,8 +16,8 @@ class BookInventoryManager:
             )
         ''')
         self.connection.commit()
-      
-     def add_book(self, title, author, quantity):
+
+    def add_book(self, title, author, quantity):
         query = "INSERT INTO books (title, author, quantity) VALUES (?, ?, ?)"
         self.cursor.execute(query, (title, author, quantity))
         self.connection.commit()
@@ -70,3 +70,31 @@ class BookInventoryManager:
 
     def close_connection(self):
         self.connection.close()
+
+def run_book_inventory_manager():
+    book_manager = BookInventoryManager()
+
+    book_manager.add_book("The Martian", "Andy Weir", 8)
+    book_manager.add_book("Dune", "Frank Herbert", 12)
+
+    print("\n-- All Books --")
+    book_manager.view_books()
+
+    try:
+        book_manager.update_book(1, quantity=10)
+        book_manager.delete_book(2)
+
+        print("\n-- Updated Books --")
+        book_manager.view_books()
+
+        search_keyword = input("\nEnter a keyword to search: ")
+        book_manager.search_book(search_keyword)
+
+    except sqlite3.Error as e:
+        print(f"SQLite error: {e}")
+
+    finally:
+        book_manager.close_connection()
+
+if __name__ == "__main__":
+    run_book_inventory_manager()
